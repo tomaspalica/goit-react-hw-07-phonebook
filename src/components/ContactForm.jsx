@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import css from '../css/ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContacts, readContacts } from 'redux/actions';
+import { addContact } from 'redux/operations';
 const ContactForm = () => {
   const contactsList = useSelector(state => state.contacts);
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const ContactForm = () => {
     if (contactsList.find(el => el.name === name)) {
       alert(`${name} is already in contacts`);
     } else {
+      dispatch(addContact({ name, number }));
       dispatch(addContacts(name, number));
       localStorage.setItem('contacts', JSON.stringify(contactsList));
     }
