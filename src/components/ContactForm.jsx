@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import css from '../css/ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContacts, readContacts } from 'redux/actions';
+
 import { addContact } from 'redux/operations';
 const ContactForm = () => {
   const contactsList = useSelector(state => state.contacts.items);
@@ -9,16 +9,6 @@ const ContactForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  useEffect(() => {
-    const contactFromLS = localStorage.getItem('contacts');
-    if (contactFromLS) {
-      dispatch(readContacts(JSON.parse(localStorage.getItem('contacts'))));
-    }
-  }, [dispatch]);
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contactsList));
-  }, [contactsList]);
 
   const handleChange = e => {
     if (e.currentTarget.name === 'name') {
@@ -35,8 +25,6 @@ const ContactForm = () => {
     } else {
       console.log(state.contacts);
       dispatch(addContact({ name, number }));
-      dispatch(addContacts(name, number));
-      localStorage.setItem('contacts', JSON.stringify(contactsList));
     }
   };
 

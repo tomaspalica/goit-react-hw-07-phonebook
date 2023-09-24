@@ -11,19 +11,33 @@ export const ContactsList = () => {
   useEffect(() => {
     dispatch(fetchcontacts());
   }, [dispatch]);
+
   const contactDelete = el => {
+    console.log(el.target.id);
     dispatch(deleteContacts(el.target.id));
   };
 
-  const normalizedFilter = filter.toLowerCase();
-  const filteredContacts = contacts.filter(({ contacts }) => {
-    console.log(contacts.name);
-    contacts.name.toLowerCase().includes(normalizedFilter);
-  });
-  console.log(filteredContacts);
+  const filterNames = () => {
+    if (filter === '') {
+      return contacts;
+    }
+    const filterValue = filter.toLowerCase();
+    const filteredUsers = contacts.filter(({ name }) => {
+      const nameValue = name.toLowerCase();
+      return nameValue.includes(filterValue);
+    });
+    return filteredUsers;
+  };
+
+  // const normalizedFilter = filter.toLowerCase();
+
+  // const filteredContacts = contacts.filter(({ name }) => {
+  //   name.toLowerCase().includes(normalizedFilter);
+  // });
+  console.log(filterNames());
   return (
     <ul className={css.nameList}>
-      {filteredContacts.map(({ id, name, number }) => (
+      {filterNames().map(({ id, name, number }) => (
         <li key={id}>
           {name}: {number}{' '}
           <button id={id} name={name} onClick={contactDelete}>
