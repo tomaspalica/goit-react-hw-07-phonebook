@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import css from '../css/ContactsList.module.css';
-import { deleteContacts } from 'redux/actions';
+
 import { useEffect } from 'react';
-import { fetchcontacts } from 'redux/operations';
+import { fetchcontacts, deleteContacts } from 'redux/operations';
 export const ContactsList = () => {
   const filter = useSelector(state => state.filter);
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
-
+  console.log(contacts);
   useEffect(() => {
     dispatch(fetchcontacts());
   }, [dispatch]);
@@ -16,10 +16,11 @@ export const ContactsList = () => {
   };
 
   const normalizedFilter = filter.toLowerCase();
-  const filteredContacts = contacts.filter(({ name }) =>
-    name.toLowerCase().includes(normalizedFilter)
-  );
-
+  const filteredContacts = contacts.filter(({ contacts }) => {
+    console.log(contacts.name);
+    contacts.name.toLowerCase().includes(normalizedFilter);
+  });
+  console.log(filteredContacts);
   return (
     <ul className={css.nameList}>
       {filteredContacts.map(({ id, name, number }) => (
