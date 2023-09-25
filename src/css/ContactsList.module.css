@@ -1,3 +1,5 @@
-.nameList{
-   
+.nameList {
+  padding-left: 0px;
+
+  list-style-type: none;
 }
